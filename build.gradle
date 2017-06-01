@@ -1,6 +1,12 @@
 apply plugin: 'java'
 
-jar {
-	baseName = 'ru.cft.test'
-	manifest.attributes("Main-Class": "ru.cft.test.HelloWorld");
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+        	'Implementation-Version': version,
+        	'Main-Class': 'ru.cft.test.HelloWorld'
+    }
+    baseName = 'ru.cft.test'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
